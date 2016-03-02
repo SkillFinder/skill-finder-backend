@@ -11,30 +11,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class SkillFinderBackendApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(SkillFinderBackendApplication.class, args);
     }
-
-//    @Bean
-//    CommandLineRunner init(final AccountRepository accountRepository) {
-//        return new CommandLineRunner() {
-//            @Override
-//            public void run(String... strings) throws Exception {
-//                Account account = new Account();
-//                account.setUsername("mariusz");
-//                account.setPasswordHash(new BCryptPasswordEncoder().encode("mariusz"));
-//                accountRepository.save(account);
-//            }
-//        };
-//    }
 }
 
 @Configuration
@@ -48,17 +33,14 @@ class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
     }
 
     private UserDetailsService userDetailsService() {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                Account account = accountRepository.findByUsername(username);
-                if (account != null) {
-                    return new User(account.getUsername(), account.getPasswordHash(),
-                            true, true, true, true, AuthorityUtils.createAuthorityList("USER"));
-                }
-                else {
-                    throw new UsernameNotFoundException("Could not find the user: " + username);
-                }
+        return username -> {
+            Account account = accountRepository.findByUsername(username);
+            if (account != null) {
+                return new User(account.getUsername(), account.getPasswordHash(),
+                        true, true, true, true, AuthorityUtils.createAuthorityList("USER"));
+            }
+            else {
+                throw new UsernameNotFoundException("Could not find the user: " + username);
             }
         };
     }
