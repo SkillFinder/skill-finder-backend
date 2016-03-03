@@ -1,4 +1,4 @@
-package org.skillfinder;
+package org.skillfinder.models;
 
 import org.springframework.data.annotation.Id;
 
