@@ -1,46 +1,33 @@
 package org.skillfinder.models;
 
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
+@Data
 @Document(collection = "users")
 public class User {
     @Id
     private String id;
-    private String firstname;
-    private String lastname;
+    private String name;
+    private String email;
+    private String locality;
 
-    public User() {
+    public User(String name, String email, String locality) {
+        this.name =  name;
+        this.email = email;
+        this.locality = locality;
     }
 
-    public User(String firstname, String lastname) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-    }
+    private List<String> imageIDs;
 
-    public String getFirstname() {
-        return firstname;
-    }
+    private String profileImageID;
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
+    private List<Skill> skills;
 
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }

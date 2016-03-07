@@ -1,7 +1,6 @@
 package org.skillfinder.controllers;
 
 import org.skillfinder.models.User;
-import org.skillfinder.repositories.AccountRepository;
 import org.skillfinder.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
