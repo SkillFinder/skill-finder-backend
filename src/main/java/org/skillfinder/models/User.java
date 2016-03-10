@@ -16,9 +16,9 @@ public class User {
     private String id;
     private String name;
     private String email;
-    private String locality;
+    private Locality locality;
 
-    public User(String name, String email, String locality) {
+    public User(String name, String email, Locality locality) {
         this.name =  name;
         this.email = email;
         this.locality = locality;
