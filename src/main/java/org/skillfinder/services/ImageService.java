@@ -4,7 +4,7 @@ import java.io.InputStream;
 
 public interface ImageService {
 
-    void saveImage(InputStream inputStream, String fileName);
+    String saveImage(InputStream inputStream, String login);
 
     InputStream getFile(String fileID);
 }

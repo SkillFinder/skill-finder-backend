@@ -1,6 +1,8 @@
 package org.skillfinder.services;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.gridfs.GridFSDBFile;
+import com.mongodb.gridfs.GridFSFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -16,8 +18,9 @@ public class ImageServiceImpl implements ImageService{
     private GridFsTemplate gridFsTemplate;
 
     @Override
-    public void saveImage(InputStream inputStream, String fileName) {
-        gridFsTemplate.store(inputStream, fileName);
+    public String saveImage(InputStream inputStream, String login) {
+        GridFSFile fsFile = gridFsTemplate.store(inputStream,new BasicDBObject("owner",login));
+        return fsFile.getId().toString();
     }
 
     @Override
