@@ -23,43 +23,46 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringApplicationConfiguration(SkillFinderBackendApplication.class)
 public class UserServiceTest {
 
+    public static final String COUNTRY = "Cracow";
+    public static final String CITY = "Poland";
+    public static final String SKILL = "english";
+    private final String EMAIL_ADDRESS = "qqq@gmail.com";
+    public static final String USERNAME = "Tom";
 
     @Autowired
     private UserService userService;
 
-    private final String EMAIL = "qqq@gmail.com";
-
     @Test
     public void shouldBePossibleToSaveAndRemoveUser() {
-            User user = new User("Dawid",EMAIL,new Locality("Poland","Cracow"));
-            assertThat(userService.getUser(EMAIL)).isNull();
+            User user = new User(USERNAME, EMAIL_ADDRESS,new Locality(CITY, COUNTRY));
+            assertThat(userService.getUser(EMAIL_ADDRESS)).isNull();
             userService.save(user);
-            assertThat(userService.getUser(EMAIL)).isNotNull();
-            userService.removeUser(EMAIL);
-            assertThat(userService.getUser(EMAIL)).isNull();
+            assertThat(userService.getUser(EMAIL_ADDRESS)).isNotNull();
+            userService.removeUser(EMAIL_ADDRESS);
+            assertThat(userService.getUser(EMAIL_ADDRESS)).isNull();
     }
 
     @Test
     public void shouldBePossibleToUpdateUser() {
-        User user = new User("Dawid",EMAIL,new Locality("Poland","Cracow"));
+        User user = new User(USERNAME, EMAIL_ADDRESS,new Locality(CITY,COUNTRY));
         userService.save(user);
-        assertThat(userService.getUser(EMAIL)).isNotNull();
-        User updatedUser = new User("Tom",EMAIL, new Locality("Poland","Cracow"));
-        Skill skill = new Skill("english", Level.FIFTH);
+        assertThat(userService.getUser(EMAIL_ADDRESS)).isNotNull();
+        User updatedUser = new User(USERNAME, EMAIL_ADDRESS, new Locality(CITY,COUNTRY));
+        Skill skill = new Skill(SKILL, Level.FIFTH);
         updatedUser.setSkills(Collections.singletonList(skill));
         userService.save(updatedUser);
-        User dbUser = userService.getUser(EMAIL);
+        User dbUser = userService.getUser(EMAIL_ADDRESS);
         assertThat(dbUser).isNotNull();
         assertThat(dbUser.getSkills()).contains(skill);
-        userService.removeUser(EMAIL);
+        userService.removeUser(EMAIL_ADDRESS);
     }
 
     @Test
     public void shouldBePossibleToAddPhoto() throws IOException {
-        User user = new User("Dawid",EMAIL,new Locality("Poland","Cracow"));
+        User user = new User(USERNAME, EMAIL_ADDRESS,new Locality(CITY,COUNTRY));
         userService.save(user);
-        InputStream inputStream = UserServiceTest.class.getResourceAsStream("/abc.txt");
-        String photoID = userService.addPhoto(inputStream, EMAIL);
+        InputStream inputStream = UserServiceTest.class.getResourceAsStream("/image.jpg");
+        String photoID = userService.addPhoto(inputStream, EMAIL_ADDRESS);
 
         InputStream photo = userService.getPhoto(photoID);
 

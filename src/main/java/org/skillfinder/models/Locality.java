@@ -9,7 +9,7 @@ public class Locality {
 
     private String city;
 
-    public Locality(String country, String city) {
+    public Locality(String city, String country) {
         this.country = country;
         this.city = city;
     }
