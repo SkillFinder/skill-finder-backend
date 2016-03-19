@@ -19,10 +19,6 @@ public class User {
     private String email;
     private Locality locality;
 
-    public User() {
-
-    }
-
     public User(String name, String email, Locality locality) {
         this.name =  name;
         this.email = email;

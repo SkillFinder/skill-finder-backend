@@ -26,7 +26,7 @@ public class UserServiceTest {
     public static final String COUNTRY = "Cracow";
     public static final String CITY = "Poland";
     public static final String SKILL = "english";
-    private final String EMAIL_ADDRESS = "qqq@gmail.com";
+    private final String EMAIL_ADDRESS = "bbb@gmail.com";
     public static final String USERNAME = "Tom";
 
     @Autowired
@@ -34,12 +34,12 @@ public class UserServiceTest {
 
     @Test
     public void shouldBePossibleToSaveAndRemoveUser() {
-            User user = new User(USERNAME, EMAIL_ADDRESS,new Locality(CITY, COUNTRY));
-            assertThat(userService.getUser(EMAIL_ADDRESS)).isNull();
-            userService.save(user);
-            assertThat(userService.getUser(EMAIL_ADDRESS)).isNotNull();
-            userService.removeUser(EMAIL_ADDRESS);
-            assertThat(userService.getUser(EMAIL_ADDRESS)).isNull();
+        User user = new User(USERNAME, EMAIL_ADDRESS,new Locality(CITY, COUNTRY));
+        assertThat(userService.getUser(EMAIL_ADDRESS)).isNull();
+        userService.save(user);
+        assertThat(userService.getUser(EMAIL_ADDRESS)).isNotNull();
+        userService.removeUser(EMAIL_ADDRESS);
+        assertThat(userService.getUser(EMAIL_ADDRESS)).isNull();
     }
 
     @Test
@@ -67,6 +67,23 @@ public class UserServiceTest {
         InputStream photo = userService.getPhoto(photoID);
 
         assertThat(IOUtils.contentEquals(inputStream, photo));
+
+        userService.removeUser(EMAIL_ADDRESS);
+    }
+
+    @Test
+    public void shouldRemoveAllPhotosWhenUserRemoved() throws IOException {
+        User user = new User(USERNAME, EMAIL_ADDRESS,new Locality(CITY,COUNTRY));
+        userService.save(user);
+        InputStream inputStream = UserServiceTest.class.getResourceAsStream("/image.jpg");
+        String photoID = userService.addPhoto(inputStream, EMAIL_ADDRESS);
+
+        userService.removeUser(EMAIL_ADDRESS);
+
+        InputStream photo = userService.getPhoto(photoID);
+
+        assertThat(photo.available()).isEqualTo(0);
+
     }
 
 
