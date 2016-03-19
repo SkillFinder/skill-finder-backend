@@ -9,7 +9,8 @@ public class Skill {
     private String name;
     private Level level;
 
-    public Skill(String name) {
+    public Skill(String name, Level level) {
         this.name = name;
+        this.level = level;
     }
 }

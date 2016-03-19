@@ -1,9 +1,12 @@
 package org.skillfinder.controllers;
 
 import org.skillfinder.models.User;
-import org.skillfinder.repositories.UserRepository;
+import org.skillfinder.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -12,20 +15,17 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<User> usersList() {
-        return userRepository.findAll();
+        return userService.getAll();
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
+    public void createUser(@RequestBody User user) {
+        userService.save(user);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "{id}")
-    public void deleteUser(@PathVariable String id) {
-        userRepository.delete(id);
-    }
+
 }
